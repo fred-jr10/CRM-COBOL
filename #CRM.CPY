@@ -5,3 +5,4 @@
                 05  ARQCRM-TELEFONE              PIC X(14).
                 05  ARQCRM-EMAIL                 PIC X(30).
                 05  ARQCRM-STATUS                PIC X(01).
+                
