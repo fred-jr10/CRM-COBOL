@@ -12,17 +12,24 @@
        WORKING-STORAGE                      SECTION.
       *--------------VARIÁVEIS DE TRABALHO------------------------------
        01  WRK-OPCAO                        PIC 9(01) VALUE ZERO.
+      *-------------------LIMPEZA DE TELA------------------------------- 
        SCREEN                               SECTION.
        01  TELA.
                 05  BLANK SCREEN.      
       *-----------------------------------------------------------------
        PROCEDURE                            DIVISION.
+       PRINCIPAL                            SECTION.
+           PERFORM PROCESSAR UNTIL WRK-OPCAO EQUAl 9.
+           DISPLAY "ENCERRANDO O SISTEMA..."  LINE 18 COLUMN 01.
+           STOP RUN.
+
+           PROCESSAR                        SECTION.
            DISPLAY TELA.
 
            DISPLAY "   ___  ____  __  __    " LINE 01 COLUMN 01.
            DISPLAY "  / __)(  _ \(  \/  )   " LINE 02 COLUMN 01.
            DISPLAY " ( (__  )   / )    (    " LINE 03 COLUMN 01.
-           DISPLAY "  \___)(_)\_)(_/\/\_)  " LINE 04 COLUMN 01. 
+           DISPLAY "  \___)(_)\_)(_/\/\_)   " LINE 04 COLUMN 01. 
  
            DISPLAY "1 - CADASTRO            " LINE 06 COLUMN 01.
            DISPLAY "2 - CONSULTA            " LINE 07 COLUMN 01.
@@ -34,7 +41,7 @@
            DISPLAY "8 - SETUP SISTEMA       " LINE 13 COLUMN 01.
            DISPLAY "9 - ENCERRAR            " LINE 14 COLUMN 01.
            DISPLAY "OPCAO:                  " LINE 16 COLUMN 01.
-              ACCEPT WRK-OPCAO LINE 20 COLUMN 15.
+              ACCEPT WRK-OPCAO LINE 16 COLUMN 15.
 
            EVALUATE WRK-OPCAO
                WHEN 1
@@ -54,8 +61,3 @@
                WHEN 8
                    CALL "MANUT"          
            END-EVALUATE.
-
-
-           
-
-           STOP RUN.
