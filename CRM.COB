@@ -43,6 +43,8 @@
            DISPLAY "OPCAO:                  " LINE 16 COLUMN 01.
               ACCEPT WRK-OPCAO LINE 16 COLUMN 15.
 
+           DISPLAY TELA.
+
            EVALUATE WRK-OPCAO
                WHEN 1
                    CALL "CADASTRO" 

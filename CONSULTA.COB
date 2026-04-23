@@ -1,6 +1,6 @@
       *-----------------------------------------------------------------
        IDENTIFICATION                       DIVISION.
-       PROGRAM-ID. MANUT.
+       PROGRAM-ID. CONSULTA.
        AUTHOR. ALFREDO DE OLIVEIRA JÚNIOR.
       *-----------------------------------------------------------------
        ENVIRONMENT                          DIVISION.
@@ -17,7 +17,7 @@
        FILE                                 SECTION.
        FD  ARQCRM.
        COPY "#CRM".
-       WORKING-STORAGE                      SECTION.
+       WORKING-STORAGE                      SECTION.       
       *------------------VARIÁVEIS OPERACIONAIS-------------------------
        01  ARQCRM-FS                        PIC 9(02) VALUE ZEROS.
       *------------------VARIÁVEIS DE APOIO-----------------------------
@@ -26,31 +26,43 @@
       *-----------------------------------------------------------------
        PROCEDURE                            DIVISION.
            PERFORM INICIAR.
+           PERFORM PROCESSAR.
            PERFORM FINALIZAR.           
            GOBACK.
 
        INICIAR                              SECTION.           
            OPEN INPUT ARQCRM.
-           DISPLAY "STATUS DE ABERTURA - ARQCRM: " ARQCRM-FS.
+      *    DISPLAY "STATUS DE ABERTURA - ARQCRM: " ARQCRM-FS.
+           IF ARQCRM-FS NOT EQUAL ZEROS
+               DISPLAY "ERRO DE ABERTURA"             LINE 01 COLUMN 01
+               ACCEPT WRK-SEGURATELA                  LINE 02 COLUMN 01
+               GOBACK
+           END-IF.
+           
+       PROCESSAR                             SECTION.
+           DISPLAY "--------------------------"       LINE 01 COLUMN 01.
+           DISPLAY "----     CONSULTA     ----"       LINE 02 COLUMN 01.
+           DISPLAY "--------------------------"       LINE 03 COLUMN 01.
+           DISPLAY "ID: "                             LINE 04 COLUMN 01.
+              ACCEPT ARQCRM-ID                        LINE 04 COLUMN 15.
+           READ ARQCRM.
 
            EVALUATE ARQCRM-FS
-              WHEN 00
-                 DISPLAY "ARQUIVO JAH EXISTENTE!"     LINE 01 COLUMN 01
-              WHEN 35
-                 OPEN OUTPUT ARQCRM
-                 DISPLAY "ARQUIVO FOI CRIADO!"        LINE 01 COLUMN 01
-              WHEN OTHER
-                 DISPLAY "ERRO DESCONHECIDO: "        LINE 01 COLUMN 01
-                 DISPLAY ARQCRM-FS                    LINE 02 COLUMN 01
-                 DISPLAY "APERTE UMA TECLA PARA VOLTAR AO MENU..." 
-                                                      LINE 10 COLUMN 51                 
-                 GOBACK
+              WHEN 00                          
+                 DISPLAY ARQCRM-NOME                  LINE 05 COLUMN 01              
+                 DISPLAY ARQCRM-TELEFONE              LINE 06 COLUMN 01              
+                 DISPLAY ARQCRM-EMAIL                 LINE 07 COLUMN 01              
+                 DISPLAY ARQCRM-STATUS                LINE 08 COLUMN 01
+             WHEN 23
+                 DISPLAY "ID NAO ENCONTRADO."         LINE 04 COLUMN 01           
+             WHEN OTHER
+                 DISPLAY "ERRO NA LEITURA: "          LINE 04 COLUMN 01
+                 DISPLAY ARQCRM-FS                    LINE 04 COLUMN 17
            END-EVALUATE.
 
            DISPLAY "APERTE UMA TECLA PARA VOLTAR AO MENU PRINCIPAL..." 
                                                       LINE 10 COLUMN 01.
            ACCEPT WRK-SEGURATELA                      LINE 10 COLUMN 51.
-             
 
        FINALIZAR                             SECTION.
            CLOSE ARQCRM.
