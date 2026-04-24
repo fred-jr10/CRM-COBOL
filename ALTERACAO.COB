@@ -1,6 +1,6 @@
       *-----------------------------------------------------------------
        IDENTIFICATION                       DIVISION.
-       PROGRAM-ID. CONSULTA.
+       PROGRAM-ID. ALTERACAO.
        AUTHOR. ALFREDO DE OLIVEIRA JÚNIOR.
       *-----------------------------------------------------------------
        ENVIRONMENT                          DIVISION.
@@ -17,11 +17,13 @@
        FILE                                 SECTION.
        FD  ARQCRM.
        COPY "#CRM".
-       WORKING-STORAGE                      SECTION.       
+       WORKING-STORAGE                      SECTION.
+       COPY "#CRM-WRK".       
       *------------------VARIÁVEIS OPERACIONAIS-------------------------
        01  ARQCRM-FS                        PIC 9(02) VALUE ZEROS.
       *------------------VARIÁVEIS DE APOIO-----------------------------
        01  WRK-SEGURATELA                   PIC X(01) VALUE ZERO.
+       01  WRK-CONFIRMA                     PIC X(01) VALUE SPACE.
       
       *-----------------------------------------------------------------
        PROCEDURE                            DIVISION.
@@ -31,7 +33,7 @@
            GOBACK.
 
        INICIAR                              SECTION.           
-           OPEN INPUT ARQCRM.
+           OPEN I-O ARQCRM.
       *    DISPLAY "STATUS DE ABERTURA - ARQCRM: " ARQCRM-FS.
            IF ARQCRM-FS NOT EQUAL ZEROS
                DISPLAY "ERRO DE ABERTURA"             LINE 01 COLUMN 01
@@ -41,20 +43,34 @@
            
        PROCESSAR                             SECTION.
            DISPLAY "--------------------------"       LINE 01 COLUMN 01.
-           DISPLAY "----     CONSULTA     ----"       LINE 02 COLUMN 01.
+           DISPLAY "----     ALTERACAO    ----"       LINE 02 COLUMN 01.
            DISPLAY "--------------------------"       LINE 03 COLUMN 01.
            DISPLAY "ID: "                             LINE 04 COLUMN 01.
-              ACCEPT ARQCRM-ID                        LINE 04 COLUMN 15.
+              ACCEPT WRK-ARQCRM-ID                    LINE 04 COLUMN 15.
+              MOVE WRK-ARQCRM-ID TO ARQCRM-ID.
            READ ARQCRM.
 
            EVALUATE ARQCRM-FS
-              WHEN 00                   
-                 DISPLAY ARQCRM-NOME                  LINE 05 COLUMN 01              
-                 DISPLAY ARQCRM-TELEFONE              LINE 06 COLUMN 01              
-                 DISPLAY ARQCRM-EMAIL                 LINE 07 COLUMN 01
-                 IF ARQCRM-STATUS EQUAL 1
-                    DISPLAY "-- REGISTRO INATIVO --"  LINE 08 COLUMN 01
-                 END-IF              
+              WHEN 00
+                 DISPLAY "NOME: "                     LINE 05 COLUMN 01             
+                 DISPLAY ARQCRM-NOME                  LINE 05 COLUMN 15             
+                 DISPLAY "TELFONE: "                  LINE 06 COLUMN 01             
+                 DISPLAY ARQCRM-TELEFONE              LINE 06 COLUMN 15             
+                 DISPLAY "EMAIL: "                    LINE 07 COLUMN 01             
+                 DISPLAY ARQCRM-EMAIL                 LINE 07 COLUMN 15             
+                 DISPLAY "DESEJA ALTERAR (S/N)? : "   LINE 09 COLUMN 01
+                    ACCEPT WRK-CONFIRMA               LINE 09 COLUMN 24
+                    IF WRK-CONFIRMA EQUAL "S"
+                       DISPLAY "NOME: "               LINE 11 COLUMN 01             
+                       ACCEPT WRK-ARQCRM-NOME         LINE 11 COLUMN 15             
+                       DISPLAY "TELFONE: "            LINE 12 COLUMN 01             
+                       ACCEPT WRK-ARQCRM-TELEFONE     LINE 12 COLUMN 15             
+                       DISPLAY "EMAIL: "              LINE 13 COLUMN 01             
+                       ACCEPT WRK-ARQCRM-EMAIL        LINE 13 COLUMN 15        
+                       MOVE WRK-ARQCRM-REGISTRO TO ARQCRM-REGISTRO
+                       REWRITE ARQCRM-REGISTRO
+                       DISPLAY "REGISTRO ALTERADO."   LINE 15 COLUMN 01
+                    END-IF
              WHEN 23
                  DISPLAY "ID NAO ENCONTRADO."         LINE 04 COLUMN 01           
              WHEN OTHER
@@ -63,10 +79,10 @@
            END-EVALUATE.
 
            DISPLAY "APERTE UMA TECLA PARA VOLTAR AO MENU PRINCIPAL..." 
-                                                      LINE 10 COLUMN 01.
-           ACCEPT WRK-SEGURATELA                      LINE 10 COLUMN 51.
+                                                      LINE 17 COLUMN 01.
+           ACCEPT WRK-SEGURATELA                      LINE 17 COLUMN 51.
 
        FINALIZAR                             SECTION.
            CLOSE ARQCRM.
-      *    DISPLAY "ARQUIVO FECHADO COM SUCESSO!"     LINE 01 COLUMN 01.
+      *     DISPLAY "ARQUIVO FECHADO COM SUCESSO!"    LINE 01 COLUMN 01.
 

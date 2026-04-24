@@ -23,7 +23,7 @@
       *------------------VARIÁVEIS OPERACIONAIS-------------------------
        01  ARQCRM-FS                        PIC 9(02) VALUE ZEROS.
       *------------------VARIÁVEIS DE APOIO-----------------------------
-       01  WRK-SEGURATELA                   PIC 9(01) VALUE ZERO.
+       01  WRK-SEGURATELA                   PIC X(01) VALUE ZERO.
       
       *-----------------------------------------------------------------
        PROCEDURE                            DIVISION.
@@ -53,27 +53,26 @@
               ACCEPT WRK-ARQCRM-TELEFONE              LINE 06 COLUMN 15.
            DISPLAY "EMAIL: "                          LINE 07 COLUMN 01.
               ACCEPT WRK-ARQCRM-EMAIL                 LINE 07 COLUMN 15.
-           DISPLAY "STATUS: "                         LINE 08 COLUMN 01.
-              ACCEPT WRK-ARQCRM-STATUS                LINE 08 COLUMN 15.
+           MOVE 0 TO WRK-ARQCRM-STATUS.
 
            MOVE WRK-ARQCRM-REGISTRO TO ARQCRM-REGISTRO.
            WRITE ARQCRM-REGISTRO.
 
            EVALUATE ARQCRM-FS
               WHEN 00
-                 DISPLAY "REGISTRO GRAVADO."          LINE 10 COLUMN 01
+                 DISPLAY "REGISTRO GRAVADO."          LINE 09 COLUMN 01
               WHEN 22
-                 DISPLAY "RTEGISTRO JAH EXISTE."      LINE 10 COLUMN 01
+                 DISPLAY "REGISTRO JAH EXISTE."       LINE 09 COLUMN 01
               WHEN OTHER
-                 DISPLAY "ERRO NA GRAVACAO: "         LINE 10 COLUMN 01
-                 DISPLAY ARQCRM-FS                    LINE 10 COLUMN 19
+                 DISPLAY "ERRO NA GRAVACAO: "         LINE 09 COLUMN 01
+                 DISPLAY ARQCRM-FS                    LINE 09 COLUMN 19
            END-EVALUATE.
 
            DISPLAY "APERTE UMA TECLA PARA VOLTAR AO MENU PRINCIPAL..." 
-                                                      LINE 12 COLUMN 01.
-           ACCEPT WRK-SEGURATELA                      LINE 12 COLUMN 51.
+                                                      LINE 11 COLUMN 01.
+           ACCEPT WRK-SEGURATELA                      LINE 11 COLUMN 51.
 
        FINALIZAR                             SECTION.
            CLOSE ARQCRM.
-           DISPLAY "ARQUIVO FECHADO COM SUCESSO!"     LINE 01 COLUMN 01.
+      *    DISPLAY "ARQUIVO FECHADO COM SUCESSO!"    LINE 01 COLUMN 01.
 

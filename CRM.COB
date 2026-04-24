@@ -51,9 +51,9 @@
                WHEN 2
                    CALL "CONSULTA"
                WHEN 3
-                   CALL "ALTERA"
+                   CALL "ALTERACAO"
                WHEN 4
-                   CALL "EXCLUI"
+                   CALL "EXCLUSAO"
                WHEN 5
                    CALL "STATUS"
                WHEN 6
