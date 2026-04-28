@@ -24,7 +24,7 @@
       *------------------VARIÁVEIS DE APOIO-----------------------------
        01  WRK-SEGURATELA                   PIC X(01) VALUE ZERO.
       *-----------------VARIÁVEIS ACUMULADORAS-------------------------- 
-       01  WRK-LINHA                        PIC 9(01) VALUE 1.
+       01  WRK-LINHA                        PIC 9(03) VALUE 1.
        01  WRK-TOTVAL                       PIC 9(03) VALUE ZEROS.
        01  WRK-TOTLIDOS                     PIC 9(03) VALUE ZEROS.
       *----------------VARIÁVEIS DE REGISTRO----------------------------
@@ -37,7 +37,7 @@
                05  FILLER                   PIC X(01).
                05  FILLER                   PIC X(30) VALUE "EMAIL".
                05  FILLER                   PIC X(01).
-               05  FILLER                   PIC X(01) VALUE "STATUS".
+               05  FILLER                   PIC X(02) VALUE "STATUS".
       *-----------------------------------------------------------------
        PROCEDURE                            DIVISION.
            PERFORM INICIAR.
@@ -56,7 +56,7 @@
 
            READ ARQCRM.
            DISPLAY WRK-CABEC                          LINE WRK-LINHA 
-                                                       COLUMN 01.
+                                                      COLUMN 01.
            ADD 1 TO WRK-LINHA.
            
        PROCESSAR                             SECTION.
@@ -76,6 +76,8 @@
            ADD 1 TO WRK-TOTLIDOS.           
 
        FINALIZAR                             SECTION.
+           CLOSE ARQCRM.
+
            ADD 2 TO WRK-LINHA.
            DISPLAY "TOTAL DE REGISTROS VALIDOS: "     LINE WRK-LINHA
                                                       COLUMN 01.
@@ -85,7 +87,7 @@
            ADD 1 TO WRK-LINHA.
            DISPLAY "TOTAL DE REGISTROS LIDOS: "       LINE WRK-LINHA
                                                       COLUMN 01.
-           DISPLAY WRK-TOTVAL                         LINE WRK-LINHA
+           DISPLAY WRK-TOTLIDOS                       LINE WRK-LINHA
                                                       COLUMN 27.
 
            ADD 2 TO WRK-LINHA.
@@ -95,5 +97,4 @@
            ACCEPT WRK-SEGURATELA                      LINE WRK-LINHA 
                                                       COLUMN 51.
 
-           CLOSE ARQCRM.
            

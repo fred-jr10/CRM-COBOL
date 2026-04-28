@@ -7,5 +7,5 @@
                 05  FILLER                           PIC X(01).
                 05  WRK-ARQCRM-EMAIL                 PIC X(30).
                 05  FILLER                           PIC X(01).
-                05  WRK-ARQCRM-STATUS                PIC X(01).
+                05  WRK-ARQCRM-STATUS                PIC X(02).
                 
