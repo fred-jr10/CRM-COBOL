@@ -19,7 +19,7 @@
       *-----------------------------------------------------------------
        PROCEDURE                            DIVISION.
        PRINCIPAL                            SECTION.
-           PERFORM PROCESSAR UNTIL WRK-OPCAO EQUAl 9.
+           PERFORM PROCESSAR UNTIL WRK-OPCAO EQUAl 8.
            DISPLAY "ENCERRANDO O SISTEMA..."  LINE 18 COLUMN 01.
            STOP RUN.
 
@@ -36,12 +36,11 @@
            DISPLAY "3 - ALTERACAO           " LINE 08 COLUMN 01.
            DISPLAY "4 - EXCLUSAO            " LINE 09 COLUMN 01.
            DISPLAY "5 - INATIVAR/ATIVAR     " LINE 10 COLUMN 01.
-           DISPLAY "6 - REL ATIVOS          " LINE 11 COLUMN 01.
-           DISPLAY "7 - REL INATIVOS        " LINE 12 COLUMN 01.
-           DISPLAY "8 - SETUP SISTEMA       " LINE 13 COLUMN 01.
-           DISPLAY "9 - ENCERRAR            " LINE 14 COLUMN 01.
-           DISPLAY "OPCAO:                  " LINE 16 COLUMN 01.
-              ACCEPT WRK-OPCAO LINE 16 COLUMN 15.
+           DISPLAY "6 - RELARIOS            " LINE 11 COLUMN 01.           
+           DISPLAY "7 - SETUP SISTEMA       " LINE 12 COLUMN 01.
+           DISPLAY "8 - ENCERRAR            " LINE 13 COLUMN 01.
+           DISPLAY "OPCAO:                  " LINE 14 COLUMN 01.
+              ACCEPT WRK-OPCAO LINE 14 COLUMN 15.
 
            DISPLAY TELA.
 
@@ -57,9 +56,7 @@
                WHEN 5
                    CALL "STATUS"
                WHEN 6
-                   CALL "RELAT"
+                   CALL "RELATMENU"               
                WHEN 7
-                   CALL "RELATI"
-               WHEN 8
                    CALL "MANUT"          
            END-EVALUATE.
